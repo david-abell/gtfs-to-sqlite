@@ -10,7 +10,7 @@ import { importFile } from "./importFile";
 import { existsSync, mkdirSync } from "fs";
 import prisma from "./client";
 
-const fileByImportOrder = [
+const FILE_IMPORT_ORDER = [
   "agency.txt",
   "calendar.txt",
   "calendar_dates.txt",
@@ -22,7 +22,7 @@ const fileByImportOrder = [
 ];
 
 async function main() {
-  // const downloadDir = "./tmp";
+  // const downloadDir = "./tmp_all";
   const downloadDir = temporaryDirectory();
   await downloadFiles(downloadDir);
   await archiveDB();
@@ -31,7 +31,7 @@ async function main() {
   const t0 = performance.now();
 
   console.profile();
-  for (const file of fileByImportOrder) {
+  for (const file of FILE_IMPORT_ORDER) {
     await importFile(`${downloadDir}/${file}`);
   }
 
@@ -79,7 +79,7 @@ async function prepareFreshDB() {
     });
     // vastly speed up insert speed
     await prisma.$queryRaw`PRAGMA journal_mode = OFF`;
-    await prisma.$queryRaw`PRAGMA synchronous = 0`;
+    await prisma.$queryRaw`PRAGMA synchronous = OFF`;
     await prisma.$queryRaw`PRAGMA cache_size = 1000000`;
     await prisma.$queryRaw`PRAGMA locking_mode = EXCLUSIVE`;
     await prisma.$queryRaw`PRAGMA temp_store = MEMORY`;
