@@ -63,7 +63,6 @@ Inserted in batches of 9_000 records
 | csv-parse  | events                    | 5.56                |
 | csv-parse  | w/cast values function    | 13.74               |
 | csv-parse  | node-gtfs                 | 5.10                |
-|            |                           |                     |
 
 <!-- - PapaParse events - 4.61, 4.92, 4.58
 - PapaParse pipeline - 13.36, 13.47
@@ -81,7 +80,6 @@ Inserted in batches of 9_000 records
 | node-gtfs  | Batch limit: 8_000           | 510                 | 8.65           |
 | node-gtfs  | Batch limit: 20_000          | 397                 | 6.61           |
 | node-gtfs  | Batch limit: 30_000          | 406.5               | 6.78           |
-|            |                              |                     |                |
 
 <!-- - PapaParse w/ pragma - 296.86, 302.57 seconds ( 5.05 minutes )
 - PapaParse wrap w/ pragma & transactions - 277.438, 297.76 seconds
@@ -92,16 +90,15 @@ Inserted in batches of 9_000 records
 
 ### Complete dataset 13M records, skip database insert
 
-| **Parser** | **Notes**                 | **Runtime seconds** |
-| ---------- | ------------------------- | ------------------- |
-| PapaParse  |                           | 65                  |
-| csv-parse  |                           | 118                 |
-| PapaParse  | pipeline & for await(...) | 467 :cry:           |
-| PapaParse  | log all 13M events        | 2446 :dizzy_face:   |
-| node-gtfs  | Batch limit: 800          | 213                 |
-| node-gtfs  | Batch limit: 8_000        | 171                 |
-| node-gtfs  | Batch limit: 20_000       | 162                 |
-|            |                           |                     |
+| **Parser** | **Notes**                 | **Runtime seconds**             |
+| ---------- | ------------------------- | ------------------------------- |
+| PapaParse  |                           | 65                              |
+| csv-parse  |                           | 118                             |
+| PapaParse  | pipeline & for await(...) | 467 :cry:                       |
+| PapaParse  | log all 13M events        | 2446 :dizzy_face: 40.76 minutes |
+| node-gtfs  | Batch limit: 800          | 213                             |
+| node-gtfs  | Batch limit: 8_000        | 171                             |
+| node-gtfs  | Batch limit: 20_000       | 162                             |
 
 <!-- - PapaParse - 65.447 seconds
 - csv-parse - 117.69 seconds
@@ -119,7 +116,6 @@ Inserted in batches of 9_000 records
 | PapaParse  | w/ PRAGMA transaction BATCH    | 4.79                |
 | PapaParse  | w/ global transaction          | 4.718               |
 | PapaParse  | no pragma or transactions      | 4.72                |
-|            |                                |                     |
 
 <!--
 - PapaParse - 4.73, 4.78, 4.66 seconds
