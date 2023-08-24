@@ -9,7 +9,8 @@ import { formatLine } from "./utils";
 import { Stream } from "stream";
 import prisma from "./client";
 
-const BATCH_SIZE = 9_000;
+const BATCH_SIZE = 20_000;
+const MAX_TABLE_HEADER_COUNT = 12;
 
 export async function importFile(filePath: string) {
   const extension = extname(filePath);
@@ -41,7 +42,7 @@ export async function importFile(filePath: string) {
 
     formattedLines.push(formatLine(entry));
 
-    if (formattedLines.length >= BATCH_SIZE) {
+    if (formattedLines.length >= BATCH_SIZE / MAX_TABLE_HEADER_COUNT) {
       clearLine(process.stdout, 1);
       cursorTo(process.stdout, 0);
       process.stdout.write(`Processing total records: ${totalLineCount}`);

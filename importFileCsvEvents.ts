@@ -9,6 +9,7 @@ import { record } from "zod";
 import prisma from "./client";
 
 const BATCH_SIZE = 20_000;
+const MAX_TABLE_HEADER_COUNT = 12;
 
 export async function importFile(filePath: string) {
   const extension = extname(filePath);
@@ -45,7 +46,7 @@ export async function importFile(filePath: string) {
 
         formattedLines.push(formatLine(record));
 
-        if (formattedLines.length >= BATCH_SIZE) {
+        if (formattedLines.length >= BATCH_SIZE / MAX_TABLE_HEADER_COUNT) {
           // consola.info(JSON.stringify(formattedLines[0]));
           process.stdout.write("\r");
           process.stdout.write(`Processing total records: ${totalLineCount}`);
