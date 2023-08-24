@@ -42,7 +42,7 @@ PapaParse [link-to-file](importFile.ts) performed around 50% faster compared to 
 
 ### Pipeline and for await
 
-Pipeline with a for await loop greatly simplifies code complexity when working with streams by not requiring direct management of event listeners. I had high hopes, but `pipeline` `for await (const record of stream) {...}` proved not up to the task. PapaParse [here](importPipeline.ts) took 467 seconds compared to just 65 when compared to the event based code above. And this still doesn't include database inserts! This article by Dan Vanderkam [here](https://medium.com/netscape/async-iterators-these-promises-are-killing-my-performance-4767df03d85b) goes into the problem in more detail. Discussion is still active, such as this issue [Performance of for await of (async iteration)](https://github.com/nodejs/node/issues/31979).
+Pipeline with a for await loop greatly simplifies code complexity when working with streams by not requiring direct management of event listeners. I had high hopes, but `pipeline` `for await (const record of stream) {...}` proved not up to the task. PapaParse w/ pipeline [link-to-file](importPipeline.ts) took 467 seconds compared to just 65 when compared to the event based code above. And this still doesn't include database inserts! This article by Dan Vanderkam [here](https://medium.com/netscape/async-iterators-these-promises-are-killing-my-performance-4767df03d85b) goes into the problem in more detail. Discussion is still active, such as this issue [Performance of for await of (async iteration)](https://github.com/nodejs/node/issues/31979).
 
 ### Logging suprises
 
