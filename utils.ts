@@ -3,7 +3,6 @@
 import path from "path";
 import { open } from "fs/promises";
 import { CastingFunction } from "csv-parse/.";
-import { record } from "zod";
 
 import {
   Agency,
@@ -295,5 +294,5 @@ export function formatLine(
     ];
   }
 
-  throw new Error(`Parsing failed for record ${JSON.stringify(record)}`);
+  throw new Error(`Parsing failed for record ${JSON.stringify(csvRecord)}`);
 }
