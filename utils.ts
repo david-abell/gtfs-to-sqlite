@@ -3,37 +3,7 @@
 import path from "path";
 import { open } from "fs/promises";
 import { CastingFunction } from "csv-parse/.";
-
-import {
-  Agency,
-  Calendar,
-  CalendarDate,
-  Route,
-  Trip,
-  Stop,
-  Shape,
-  StopTime,
-} from "@prisma/client";
-import { CamelKeysToSnake } from "./types/utils";
-
-type AgencyTableRecord = CamelKeysToSnake<Agency>;
-type CalendarTableRecord = CamelKeysToSnake<Calendar>;
-type CalendarDateTableRecord = CamelKeysToSnake<CalendarDate>;
-type RouteTableRecord = CamelKeysToSnake<Route>;
-type TripTableRecord = CamelKeysToSnake<Trip>;
-type StopTableRecord = CamelKeysToSnake<Stop>;
-type ShapeTableRecord = CamelKeysToSnake<Shape>;
-type StopTimeTableRecord = CamelKeysToSnake<StopTime>;
-
-export type SnakeCaseTableRecord =
-  | AgencyTableRecord
-  | CalendarTableRecord
-  | CalendarDateTableRecord
-  | RouteTableRecord
-  | TripTableRecord
-  | StopTableRecord
-  | ShapeTableRecord
-  | StopTimeTableRecord;
+import { SnakeCaseModel } from "./prisma/snakeCaseModels";
 
 export async function readLastLine(pathName: string) {
   const newLineCharacters = ["\n", "\r"];
@@ -182,7 +152,7 @@ function castColumnValue(key: string, value: string | number | null) {
 }
 
 export function formatLine(
-  csvRecord: SnakeCaseTableRecord
+  csvRecord: SnakeCaseModel
 ): (string | number | null)[] {
   // eslint-disable-next-line prefer-const
   for (let [key, value] of Object.entries(csvRecord)) {

@@ -5,7 +5,8 @@ import { clearLine, cursorTo } from "readline";
 import prisma from "./client";
 import { Prisma } from "@prisma/client";
 import { basename, extname } from "path";
-import { formatLine, SnakeCaseTableRecord } from "./utils";
+import { formatLine } from "./utils";
+import { SnakeCaseModel } from "./prisma/snakeCaseModels";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -15,7 +16,8 @@ import { formatLine, SnakeCaseTableRecord } from "./utils";
 //   console.log("Query duration: " + e.duration + "ms");
 // });
 
-const BATCH_SIZE = 20_000;
+const BATCH_SIZE = 32_000;
+const MAX_TABLE_HEADER_COUNT = 12;
 
 export async function importFile(filePath: string) {
   const extension = extname(filePath);
@@ -37,7 +39,7 @@ export async function importFile(filePath: string) {
   consola.start(`Importing ${fileName}${extension}`);
 
   return new Promise((resolve, reject) => {
-    Papa.parse<SnakeCaseTableRecord>(createReadStream(filePath, "utf-8"), {
+    Papa.parse<SnakeCaseModel>(createReadStream(filePath, "utf-8"), {
       header: true,
       // dynamicTyping: true,
       skipEmptyLines: true,
@@ -47,7 +49,7 @@ export async function importFile(filePath: string) {
 
         formattedLines.push(formatLine(results.data));
 
-        if (formattedLines.length >= BATCH_SIZE) {
+        if (formattedLines.length >= BATCH_SIZE / MAX_TABLE_HEADER_COUNT) {
           clearLine(process.stdout, 1);
           cursorTo(process.stdout, 0);
           process.stdout.write(`Processing total records: ${totalLineCount}`);
